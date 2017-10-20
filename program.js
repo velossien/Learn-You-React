@@ -10,8 +10,19 @@ require("babel/register")({
     ignore: false
 });
 
-app.use("/", function (req, res) {
-    res.render("index", "");
-});
+let data = [
+    {
+        title: "Shopping",
+        detail: (process.argv[3])
+    },
+    {
+        title: "Hair cut",
+        detail: (process.argv[4])
+    }
+];
 
-app.listen(app.get("port"), function () { });
+app.use("/", ((req, res) => {
+    res.render("index", { data: data });
+}));
+
+app.listen(app.get("port"), (() => { }));
