@@ -32,9 +32,27 @@ class TodoList extends React.Component {
 };
 
 class Todo extends React.Component {
+    constructor(props) {
+        super(props);
+        const handleChange = this.handleChange.bind(this);
+        this.state = { checked: false };
+    }
+
+    handleChange() {
+        this.setState({ checked: !this.state.checked });
+    };
+
+    // LYR's own solution: this can be more useful as it can be reused for textboxes, etc.
+    // handleChange(e){
+    //     this.setState({checked:e.target.checked});
+    // }
+
     render() {
         return (
             <tr>
+                <td style={{ border: "1px solid black;" }}>
+                    <input type="checkbox" checked={this.state.checked} onChange={this.handleChange} />
+                </td>
                 <td style={{ border: "1px solid black;" }}>{this.props.title}</td>
                 <td style={{ border: "1px solid black;" }}>{this.props.children}</td>
             </tr>
@@ -55,5 +73,3 @@ class TodoForm extends React.Component {
         );
     };
 };
-
-
