@@ -1,4 +1,4 @@
-//NOTE: all solutions require a written in semi-colon for some reason - kept in code so it will pass as the solution
+//NOTE: All solutions require a semi-colon in the styles - kept in code so it will pass as the solution.
 
 import React from "react";
 import PropTypes from "prop-types";
@@ -19,7 +19,7 @@ class TodoList extends React.Component {
     render() {
         return (
             <div className="todoList">
-                <table style={{ border: "2px solid black;" }}>
+                <table style={style.todoList}>
                     <tbody>
                         <Todo title="Shopping">Milk</Todo>
                         <Todo title="Hair cut">13:00</Todo>
@@ -50,11 +50,11 @@ class Todo extends React.Component {
     render() {
         return (
             <tr>
-                <td style={{ border: "1px solid black;" }}>
+                <td style={style.tableContent}>
                     <input type="checkbox" checked={this.state.checked} onChange={this.handleChange} />
                 </td>
-                <td style={{ border: "1px solid black;" }}>{this.props.title}</td>
-                <td style={{ border: "1px solid black;" }}>{this.props.children}</td>
+                <td style={style.tableContent}>{this.props.title}</td>
+                <td style={style.tableContent}>{this.props.children}</td>
             </tr>
         );
     };
@@ -72,4 +72,13 @@ class TodoForm extends React.Component {
             </div>
         );
     };
+};
+
+let style = {
+    tableContent: {
+        border: "1px solid black;"
+    },
+    todoList: {
+        border: "2px solid black;"
+    }
 };
