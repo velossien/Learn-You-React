@@ -1,5 +1,3 @@
-//NOTE: All solutions require a semi-colon in the styles - kept in code so it will pass as the solution.
-
 import React from "react";
 import PropTypes from "prop-types";
 
@@ -17,12 +15,11 @@ export default class TodoBox extends React.Component {
 
 class TodoList extends React.Component {
     render() {
-        let todo = this.props.data.map((obj) => {
+        let todo = this.props.data.map(((obj) => {
             return (
                 <Todo title={obj.title} key={obj.title}>{obj.detail}</Todo>
             )
-        });
-
+        }));
         return (
             <div className="todoList">
                 <table style={style.todoList}>
@@ -38,17 +35,17 @@ class TodoList extends React.Component {
 class Todo extends React.Component {
     constructor(props) {
         super(props);
-        const handleChange = this.handleChange.bind(this);
         this.state = { checked: false };
-    }
+        this.handleChange = this.handleChange.bind(this);
+    };
 
     handleChange() {
         this.setState({ checked: !this.state.checked });
     };
 
-    // LYR's own solution: this can be more useful as it can be reused for textboxes, etc.
-    // handleChange(e){
-    //     this.setState({checked:e.target.checked});
+    // LYR's own solution: this can be more useful as it can be reused for textboxes, etc. 
+    // handleChange(e){ 
+    //     this.setState({checked:e.target.checked}); 
     // }
 
     render() {
@@ -80,9 +77,9 @@ class TodoForm extends React.Component {
 
 let style = {
     tableContent: {
-        border: "1px solid black;"
+        border: "1px solid black"
     },
     todoList: {
-        border: "2px solid black;"
+        border: "2px solid black"
     }
 };
