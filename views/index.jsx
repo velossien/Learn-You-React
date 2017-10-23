@@ -15,7 +15,7 @@ export default class TodoBox extends React.Component {
 
 class TodoList extends React.Component {
     constructor(props) {
-        super(props)
+        super(props);
         this.state = {
             data: this.props.data,
             titleValue: "",
@@ -24,6 +24,7 @@ class TodoList extends React.Component {
         this.changeTitle = this.changeTitle.bind(this);
         this.changeDetail = this.changeDetail.bind(this);
         this.addTodo = this.addTodo.bind(this);
+        this.deleteTodo = this.deleteTodo.bind(this);
     };
 
     changeTitle(e) {
@@ -34,25 +35,57 @@ class TodoList extends React.Component {
         this.setState({ detailValue: e.target.value });
     };
 
-    addTodo(e) {
-        let newTodo = this.state.data.push(
+    addTodo() {
+        //separated the next two lines as I was having trouble with 
+        let newTodoList = this.state.data;
+        newTodoList.push(
             {
                 title: this.state.titleValue,
                 detail: this.state.detailValue
             }
-        )
+        );
 
         this.setState({
-            data: newTodo,
+            data: newTodoList,
             titleValue: "",
             detailValue: ""
         });
     };
 
+    deleteTodo(title) {
+        let todoList = this.props.data;
+
+        let index = -1;
+
+        for (let i = 0; i < todoList.length; i++) {
+
+            if (todoList[i].title == title) {
+                index = i;
+            };
+        };
+
+        if (index >= 0) {
+            todoList.splice(index, 1);
+
+            this.setState({
+                data: todoList
+            });
+        }
+    };
+
+    //LYR's deleteTodo method is much more efficient - it is what I would used if I did this again.
+    // deleteTodo(title) {
+    //     let newData = this.state.data.filter(((todo)=> {
+    //         return todo.title !== title;
+    //     }));
+    //     this.setState({ data: newData });
+    // }
+
+
     render() {
-        let todo = this.props.data.map(((obj) => {
+        let todoList = this.state.data.map(((obj) => {
             return (
-                <Todo title={obj.title} key={obj.title}>{obj.detail}</Todo>
+                <Todo title={obj.title} key={obj.title} onDelete={this.deleteTodo}>{obj.detail}</Todo>
             );
         }));
         return (
@@ -64,7 +97,7 @@ class TodoList extends React.Component {
                 </div>
                 <table style={style.todoList}>
                     <tbody>
-                        {todo}
+                        {todoList}
                     </tbody>
                 </table>
             </div>
@@ -80,17 +113,25 @@ class Todo extends React.Component {
             todoIndivStyle: style.notCheckedTodo
         };
         this.handleChange = this.handleChange.bind(this);
+        this._onDelete = this._onDelete.bind(this);
     };
 
     handleChange(e) {
         this.setState({ checked: e.target.checked });
 
-        e.target.checked ? this.setState({ todoIndivStyle: style.checkedTodo }) : this.setState({ todoIndivStyle: style.notCheckedTodo });
+        e.target.checked
+            ? this.setState({ todoIndivStyle: style.checkedTodo })
+            : this.setState({ todoIndivStyle: style.notCheckedTodo });
+    };
+
+    _onDelete(e) {
+        this.props.onDelete(this.props.title);
     };
 
     render() {
         return (
             <tr style={this.state.todoIndivStyle}>
+                <td style={style.tableContent}><button onClick={this._onDelete}>X</button></td>
                 <td style={style.tableContent}>
                     <input type="checkbox" checked={this.state.checked} onChange={this.handleChange} />
                 </td>
